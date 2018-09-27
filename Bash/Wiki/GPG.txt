@@ -1,0 +1,15 @@
+### Command for export public key from private key ds5sd7qf   
+
+* gpg --armor --export -r ds5sd7qf
+
+### Commands to encrypt witch imported lublic key
+
+* check key id  
+gpg --list-sigs
+
+* use key and encrypt  
+gpg -r KEYID -e  bank.lst
+
+### Other on web page :D
+
+* http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/

@@ -1,0 +1,280 @@
+Welcome to the bash-nice-to-remember wiki!
+
+***Good practice is to use man option for the commands***
+
+
+## 1. Safe mounting points (hack obstruction)
+
+mount == mounting a resource
+mount [option] [from where] [space on a computer]
+
+umount == unmounting a resource
+umount [option] [what to unmount]
+
+df == check free disk space
+df [option] 
+
+fstab == file with mounting settings load when a system starts
+
+Bash verion 
+> mount -o nodev,noexec,nosuid /dev/hda3 /tmp
+
+Fstab version
+> /dev/hda3 /tmp ext3 defaults,nodev,noexec,nosuid 1 2
+
+When fstable was hanged we must restart it by command:
+> mount -a
+
+## 2. Mount usb path
+
+> su 
+
+> fdisk -l
+
+Choosing right disk and then
+
+> mount /dev/sdb1 /mnt
+
+## 3. Cifs and fstab mouting (windows samba style)
+
+>mkdir /mnt/cifs
+
+>mount -t cifs //server-name/share-name /mnt/cifs -o user=shareuser,password=sharepassword,vers=1.0
+
+>mount -t cifs //192.168.101.100/sales /mnt/cifs -o user=shareuser,password=sharepassword,vers=1.0
+
+>Where
+>
+>user=shareuser == specifies the CIFS user name.
+>
+>password=sharepassword == specifies the CIFS password. If this option is not given then the environment variable 
+PASSWD is used. If the password is not specified directly or indirectly via an argument to mount, mount will prompt for a password, unless the guest option is specified.
+>
+>vers=1.0 == samba version for use (optional)
+>
+> or fstab style 
+>
+>//192.168.101.100/TESTY    /home/lolo/Files    cifs    rw,user=admin,password=pass,vers=1.0 0 0
+
+## 4. Mount Linux folders by nfs
+**NFS, or Network File System, is a distributed filesystem protocol that allows you to mount remote directories on your server.**
+
+### The machine from which the shared resources should come (host)   
+**I. Download and Install the Components**   
+
+> install nfs-kernel-server   
+> install nfs-common   
+
+**II. Create the Share Directory on the Host Server**   
+
+> sudo mkdir /var/nfs   
+
+**III. Configure the NFS Exports on the Host Server**   
+
+> sudo emacs -nw /etc/exports   
+
+The file must contain the following data (Rules on what to share and how to share)   
+> directory_to_share       client(share_option1,...,share_optionN)   
+
+Exaple:   
+> /home       111.111.111.111(rw,sync,no_root_squash,no_subtree_check)   
+> /var/nfs    111.111.111.111(rw,sync,no_subtree_check)   
+
+Where:   
+* rw == This option gives the client computer both read and write access to the volume.   
+* sync == This option forces NFS to write changes to disk before replying. This results in a more stable and consistent environment, since the reply reflects the actual state of the remote volume.   
+* nosubtreecheck == This option prevents subtree checking, which is a process where the host must check whether the file is actually still available in the exported tree for every request. This can cause many problems when a file is renamed while the client has it opened. In almost all cases, it is better to disable subtree checking.   
+* norootsquash == By default, NFS translates requests from a root user remotely into a non-privileged user on the server. This was supposed to be a security feature by not allowing a root account on the client to use the filesystem of the host as root. This directive disables this for certain shares.   
+
+**IV. Create the NFS table that holds the exports**   
+> sudo exportfs -a   
+
+**V. Start NFS**   
+> sudo service nfs-kernel-server start   
+
+### The machine that wants to mount specific folders from the host (must be included in the export rules on the host)   
+
+**I. Install NFS in Client System**  
+> sudo zypper in nfs-client   
+
+**II. Mount by NFS**   
+> sudo mount -t nfs 192.168.1.102:/var/unixmen_share/ /var/nfs_share/   
+
+or fstab style:   
+>192.168.1.102:/var/unixmen_share/ /var/nfs_share/ nfs rw,sync,hard,intr 0 0
+
+
+## 5. If I want format disk   
+> mkfs.vfat /dev/sdb1
+
+Except .vfat (for FAT32) we got also ext3, ext4, reiserfs, xfs
+
+## 6. Setting a right privileges and ovner change 
+
+Using standard bash
+> chmod 777 file.txt
+
+4 == for user; 2 == group; 1 == others
+
+Ovner change (to show groups we use groups command in the terminal)
+>  chown [user]:[group] plik-1 [plik-2 ...]
+
+> or recurs for all files in the folder.   
+> chown -R andrzej:marketing /katalog
+
+## 7. Prevent files for changing
+
+Set file only for adding a new conntent to it. 
+> chatter +a file
+
+## 8. What services are on 
+>netstat is mostly obsolete:  
+>Replacement for netstat is ==> ss     
+>Replacement for netstat -r is ==> ip route  
+>Replacement for netstat -i is ==> ip -s link  
+>Replacement  for  netstat  -g  is ==> ip maddr.   
+
+## 9. Information about service
+
+> systemctl status [service name]
+
+> service [service name] status
+
+Starting and stopping a service:
+> service [service name] [start or stop option]
+
+## 10. Lib for running VirtualBox on Fedora
+
+> sudo dnf install kernel-devel kernel-headers
+
+## 11. Copy folder with his content
+
+Copy /home/vivek/letters folder and all its files to /usb/backup directory:
+
+Like CTRL+C
+> cp -avr /home/vivek/letters /usb/backup
+
+Like CTRL+X
+> mv /home/you/somefile.txt /tmp/newlocation.txt
+
+## 12. How do I modify my path ?
+
+Finding out current path
+> echo "$PATH"
+
+Modify path
+> export PATH=$PATH:/path/to/dir1 export PATH=$PATH:/path/to/dir1:/path/to/dir2
+
+or modyfy ~/.bash_profile and then restart it:
+> . ~/.bash_profile
+
+
+## 13. Finding stuff
+
+>find . -name tecmint.txt
+>
+>find /home -name tecmint.txt
+>
+>find /home -iname tecmint.txt
+>
+>find / -type d -name Tecmint
+>
+>find . -type f -name "*.php"
+
+>Find all the files whose permissions are 777 ==>  
+>find . -type f -perm 0777 -print
+>
+>Find all the files without permission 777 ==>   
+>find / -type f ! -perm 777
+>
+>Find all Read Only files ==>   
+>find / -perm /u=r
+>
+>Find all Executable files ==>   
+>find / -perm /a=x
+>
+>Find all 777 permission files and use chmod command to set permissions to 644 == >   
+>find / -type f -perm 0777 -print -exec chmod 644 {} \;
+>
+>Find all 777 permission directories and use chmod command to set permissions to 755 ==>   
+>find / -type d -perm 777 -print -exec chmod 755 {} \;
+>
+>To find all hidden files, use below command ==>   
+>find /tmp -type f -name ".*"
+>
+>To find all the files which are modified 50 days back ==>   
+>find / -mtime 50
+>
+>To find all the files which are accessed 50 days back ==>   
+>find / -atime 50
+>
+>To find all the files which are modified more than 50 days back and less than 100 days == >   
+>find / -mtime +50 –mtime -100
+>
+>To find all the files which are changed in last 1 hour ==>   
+>find / -cmin -60
+>
+>To find all the files which are accessed in last 1 hour ==>  
+>find / -amin -60
+>
+>To find all the files which are greater than 50MB and less than 100MB ==>   
+>find / -size +50M -size -100M
+
+## 14. virtualbox from command line
+
+>DISPLAY=:0 vboxmanage --nologo controlvm NazwaMaszyny reset 
+
+## 15. Search for a particular string in a directory of files (many files and some of them contains a string)
+
+>grep -R "string_what_i_look" *
+
+## 16. How do I get the size of a directory on the command line
+
+_du -sh file_path_
+
+Explanation
+
+    du command estimates file_path space usage
+
+    The options -sh are (from man du):
+
+      -s, --summarize
+             display only a total for each argument
+
+      -h, --human-readable
+             print sizes in human readable format (e.g., 1K 234M 2G)
+
+    To check more than one directory and see the total, use du -sch:
+
+      -c, --total
+             produce a grand total
+
+## 17. Watch current saving progress witch the file   
+_tail -f foo.txt_    
+-f = follow   
+foo.txt = file witch I can save some content and I would see that in tail  
+
+## 18. Set the Access & modification time to a specific date and time   
+
+* Whenever we do change access and modification time of a file & directory using touch command, then it set the current time as access & modification time of that file or directory,
+
+* Let’s assume we want to set specific date and time as access & modification time of a file, this is can be achieved using ‘-c’ & ‘-t’ option in touch command,
+
+* Date and Time can be specified in the format: {CCYY}MMDDhhmm.ss
+
+* Where:   
+    CC – First two digits of a year   
+    YY – Second two digits of a year   
+    MM –  Month of the Year (01-12)   
+    DD – Day of the Month (01-31)   
+    hh –  Hour of the day (00-23)   
+    mm – Minutes of the hour (00-59)   
+
+* _touch -c -t 202510191820 devops.txt_
+
+## 19. Symbolic link 
+ln -s źródło link
+
+
+
+

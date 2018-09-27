@@ -1,0 +1,236 @@
+> $@
+
+Collection of all input parameters (test.sh 5 6 3 == collection will contains numbers 5, 6 and 3)
+
+***
+
+> $#
+
+Number of parameters in decimal.
+
+***
+
+> $?	
+
+Exit status of the most recently exec program.
+
+***
+
+> $-	
+
+A hyphen expands to the current option flags as specified upon invocation, by the set built-in command, or those set by the shell itself (such as the -i).
+
+***
+
+> $$	
+
+Expands to the process ID of the shell.
+
+***
+
+> $!	
+
+Expands to the process ID of the most recently executed background (asynchronous) command.
+
+***
+
+> $0	
+
+Expands to the name of the shell or shell script.
+
+***
+
+> $_	
+
+The underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file.
+
+***
+
+> $CDPATH	
+
+A colon-separated list of directories used as a search path for the cd built-in command.
+
+***
+
+> $HOME	
+
+The current user's home directory; the default for the cd built-in. The value of this variable is also used by tilde expansion.
+
+***
+
+> $MAIL
+
+If this parameter is set to a file name and the MAILPATH variable is not set, Bash informs the user of the arrival of mail in the specified file.
+
+***
+
+> $MAILPATH	
+
+A colon-separated list of file names which the shell periodically checks for new mail.
+
+***
+
+> $PATH	
+
+A colon-separated list of directories in which the shell looks for commands.
+
+***
+
+> $PS1	
+
+The primary prompt string. The default value is "'\s-\v\$ '".
+
+***
+
+> $PS2	
+
+The secondary prompt string. The default value is "'> '".
+
+***
+
+> $PS3	
+
+The value of this variable is used as the prompt for the select command. Defaults to "'#? '"
+
+***
+
+> $PS4	
+
+The value is the prompt printed before the command line is echoed when the -x option is set; defaults to "'+ '".
+
+***
+
+> $BASH	
+
+The full pathname used to execute the current instance of Bash.
+
+***
+
+> $BASH_ENV	
+
+If this variable is set when Bash is invoked to execute a shell script, its value is expanded and used as the name of a startup file to read before executing the script.
+
+***
+
+> $BASH_VERSION	
+
+The version number of the current instance of Bash.
+
+***
+
+> $EUID	
+
+The numeric effective user ID of the current user.
+
+***
+
+> $GROUPS	
+
+An array variable containing the list of groups of which the current user is a member.
+
+***
+
+> $HISTFILE	
+
+The name of the file to which the command history is saved. The default value is ~/.bash_history.
+
+***
+
+> $HISTSIZE	
+
+The maximum number of commands to remember on the history list, default is 500.
+
+***
+
+> $HOSTFILE	
+
+Contains the name of a file in the same format as /etc/hosts that should be read when the shell needs to complete a hostname.
+
+***
+
+> $HOSTNAME	
+
+The name of the current host.
+
+***
+
+> $HOSTTYPE	
+
+A string describing the machine Bash is running on.
+
+***
+
+> $MAILCHECK	
+
+How often (in seconds) that the shell should check for mail in the files specified in the MAILPATH or MAIL variables.
+
+***
+
+> $OLDPWD	
+
+The previous working directory as set by the cd built-in.
+
+***
+
+> $PPID	
+
+The process ID of the shell's parent process.	
+
+***
+
+> $PWD	
+
+The current working directory as set by the cd built-in command.
+
+***
+
+> $RANDOM	
+
+Each time this parameter is referenced, a random integer between 0 and 32767 is generated. Assigning a value to this variable seeds the random number generator.
+
+***
+
+> $REPLY	
+
+The default variable for the read built-in.
+
+***
+
+> $SECONDS	
+
+This variable expands to the number of seconds since the shell was started.
+
+***
+
+> $SHELLOPTS	
+
+A colon-separated list of enabled shell options.
+
+***
+
+> $SHLVL	
+
+Incremented by one each time a new instance of Bash is started.
+
+***
+
+> $UID	
+
+The numeric, real user ID of the current user.
+
+***
+
+> $(command)
+
+Is a modern synonym for `command` which stands for process substitution; it means, run command and put its output here. So echo "Today is $(date). A fine day." will run the date command and include its output in the argument to echo.
+
+***
+
+> ${variable}
+
+Is just a disambiguation mechanism, so you can say ${var}text when you mean, the contents of the variable var, followed by text (as opposed to $vartext which means, the contents of the variable vartext).
+
+***
+
+
+

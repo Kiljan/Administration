@@ -1,0 +1,80 @@
+from "http://thismightbehelpful.blogspot.com/2008/09/remote-access-to-cups-web-interface.html"
+
+If you have a server(without gnome or kde running) and need to install a printer, the easiest way is to use the CUPS web interface. You can see it on your own ubuntu computer by going to http://localhost:631/admin. But to get to this page remotely for a server, you need to first make some edits to the cups conf file. So do the following:
+
+## 1. Edit the cups configuration file by first running the following command on your server:
+
+    sudo nano /etc/cups/cupsd.conf
+
+## 2. Your first edit to the file is to make the section that looks like:
+
+    "Only listen for connections from the local machine."
+    
+    Listen localhost:631
+    
+    Listen /var/run/cups/cups.sock
+
+look like this:
+
+    "Only listen for connections from the local machine."
+
+    Port 631
+    
+    Listen /var/run/cups/cups.sock
+
+## 3. You then want to change the sections that looks like this:
+
+    < Location / >
+    # Restrict access to the server...
+    Order allow,deny
+    < /Location >
+    < Location /admin >
+    # Restrict access to the admin pages...
+    Order allow,deny
+    < /Location >
+    < Location /admin/conf >
+    AuthType Default
+    Require user @SYSTEM
+    # Restrict access to the configuration files...
+    Order allow,deny
+    < /Location >
+
+so they look like this:
+
+    < Location / >
+    # Restrict access to the server...
+    Order allow,deny
+    Allow all
+    < /Location >
+    < Location /admin >
+    # Restrict access to the admin pages...
+    Order allow,deny
+    Allow all
+    < /Location >
+    < Location /admin/conf >
+    AuthType Default
+    Require user @SYSTEM
+    # Restrict access to the configuration files...
+    Order allow,deny
+    Allow all
+    < /Location >
+
+## 4. Finally, restart cups with the following:
+
+    sudo /etc/init.d/cupsys restart
+
+## 5. You should now be able to log into cups on your server with:
+
+    http://yourserverip:631
+
+Note that when you change something, it may tell you that you need to add a certificate to firefox. Do so 
+
+by clicking the add/get certificate button at the bottom of the firefox error message page. It will also 
+
+tell you that to change stuff, you need to use the "https" version of the page instead of "http" so just 
+
+go to:
+
+    https://yourserverip:631
+
+You might also have to open/port forward port 631.

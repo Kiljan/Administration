@@ -1,0 +1,29 @@
+1. How to show the latest dates
+> ROW_NUMBER() OVER (PARTITION BY kol1 ORDER BY dateKol DESC) AS ROW_NUM
+***
+2. Insert the starting number
+> ROW_NUMBER() OVER (ORDER BY kol1 DESC) AS Lp
+***
+3. How to get rid of hidden characters
+> REPLACE(REPLACE(kol1, CHAR(13),''),CHAR(10),'')
+***
+4. Collation problem
+The suffix in the SELECT clause inserts the appropriate coding of the error generating column.
+> kol1 COLLATE database_default AS PRODUCT_NUMBER
+***
+5. Date manipulation
+> select dateadd(month, datediff(month, 0, getdate()),0) AS startOfTheMontch
+
+> select dateadd(wk, datediff(wk, 0, getdate())-1,0) AS lastWeekStart
+
+> select dateadd(wk, datediff(wk, 0, getdate()),0) AS thisWeekStart
+
+> select dateadd(wk, datediff(wk, 0, getdate())+1,0) AS nextWeekStart
+
+> select dateadd(d,6, dateadd(wk, datediff(wk, 0, getdate())-1,0)) AS lastWeekEnd
+
+> select dateadd(year, -1, dateadd(month, datediff(month, '19000101',getdate()), '19000101')) AS startOfTheLAst12Months
+
+> select dateadd(year, 0, dateadd(month, datediff(month, '19000101',getdate()), '19000101')) AS endOfTheLAst12Months
+
+> select dateadd(day, -30, getdate()) AS daysBack

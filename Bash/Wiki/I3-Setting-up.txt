@@ -1,0 +1,191 @@
+from https://fedoramagazine.org/getting-started-i3-window-manager/
+
+
+Fedora Workstation comes with the GNOME desktop by default. GNOME brings their users a rich experience with a complete set of applications. This includes applications for music and video players, text editors, PDF viewers, and even a Weather and Maps apps. But for those looking for another desktop experience for their workstations, Fedora provides a large set of options to try out. Some are full desktop environments like Cinnamon and KDE Plasma, to minimal window managers like OpenBox, Fluxbox, and i3wm (often shortened to just i3).
+Overview of i3
+
+In this post, we will cover the i3 tiling window manager, a relatively new option for your desktop. Despite being new, it has been rapidly adopted by many Linux hackers, such as Greg Kroah-Hartman. Some of the features and benefits of the i3wm include:
+
+    Does not require high-end hardware
+    Low resource consumption
+    Highly customizable
+
+Unlike traditional desktop environments, window managers are flat, terminal-like environments that work in terms of workspaces and tiles. Usually there are not things like application menus or a desktop for files and folders. Window managers are independent from a GUI. Many pro users don’t even use a mouse with their window managers and use only a keyboard (although it is still possible to use a mouse if you prefer to have one).
+
+## Installing i3
+
+Although desktop environments can be pretty and fluid, you may not discover just how fast your computer can be until you use a window manager like i3. For this tutorial, we will assume you are already working in a traditional desktop environment like GNOME.
+
+To begin, open a terminal and run the following command.
+
+> $ sudo dnf install i3 i3status dmenu i3lock xbacklight feh conky
+
+Confirm the download and wait until it finishes installing. Curious about what you installed? Here is the package-by-package breakdown.
+
+    i3 is the main window manager package.
+    i3status is a utility to generate a string with information to be displayed in the i3bar.
+    dmenu is a utility to launch our apps in the i3 desktop.
+    xbacklight is a utility to set our laptop’s screen brightness.
+    feh is a utility to set a wallpaper.
+    conky is a utility to display information of the system in a awesome way.
+
+This should be around 19MB to download in a fresh Fedora 23 Workstation installation.
+
+Once it finishes installing, log out of your current session and log in again, this time selecting the i3 session in your login screen (although you may want to read the rest of this guide first before jumping in so you won’t be lost).
+Using the i3 window manager: Selecting an i3 session at login
+
+> Choose the “i3” option when logging into your desktop.
+
+
+## Configuring i3
+
+The first time you log in, i3 will start a setup wizard to guide you through creating a configuration file. There are two options: start with the default options or start with an empty file. If it is your first time using i3 or a window manager, we recommend using the default configuration.
+
+i3-fedora-conf
+
+Next step is to set the $mod key. The $mod key is an important concept to understand in i3. The $mod key is what you use to navigate around your window manager. It is more or less the “command” key that you will always use when changing workspaces, windows, changing layouts, or opening new applications. The wizard will ask you to select the Windows key or the Alt key. By default, you can select the Windows key.
+
+## Using the i3 window manager: Selecting a $mod key
+
+That’s it! That’s all you need to start using your new window manager. After completing the set up utility, you will be at a new i3 workspace. It will look simple, with just a black screen and a little bar down at the bottom. First, we will need to learn to become more productive, and then we will learn how to customize i3.
+i3 Basic Use
+
+To begin, try using a basic but important shortcut, $mod + Enter. Of course, substitute whatever you chose to be your $mod key in the example. This will open a new terminal.
+
+## Using the i3 window manager: Opening a terminal
+
+To open a different application, you will need to use dmenu. To use dmenu, hit $mod + d on your keyboard. You can then search for an application, like Firefox. Press Enter once you are ready to open an application. Firefox will open and adjust to use half of your monitor.
+
+## Using the i3 window manager: Using dmenu
+
+Using the i3 window manager: Terminal and browser side by side
+
+But what if you want to split your windows so your terminal is on top of your Firefox window? No problem.
+
+Now, we are going to tell i3 that for the next window, we want to split the screen horizontally, not vertically. You can do this by pressing $mod + v. You may think nothing happened, but you will need to open a new window to see your change.
+
+Open dmenu again by pressing $mod + d and look for another application, like evince (which opens PDF files). Press Enter once you find it. Now, you should have three windows in your screen in a layout like this.
+Using the i3 window manager: Horizontal and vertical layouts
+
+The terminal window is vertical, while the Firefox and evince windows are stacked horizontally on top of each other.
+
+Decide that you need to use your full screen and want just one window on full screen? Easy! Select a window and press $mod + f to go full screen. Once you are done, you can go back by hitting $mod + f again.
+
+Time to close your window? You might be used to other shortcuts like Ctrl + Q or Alt + F4 on other operating systems or desktop environments. You can press $mod + Shift + q to close a window in i3 or you can use xkill. To use xkill, open dmenu again ($mod + d) and find “xkill”. Hit Enter. Now, your mouse cursor will become an “X”, and any window you click on will close.
+
+Is your current workspace getting too full of windows? You can easily make a new workspace to hold new windows. Press $mod + #, where # is any number from 1 to 9. This will move you a new workspace in your virtual desktop. If you want to move an already existing window to a new workspace, select the window you want to move and press $mod + Shift + #.
+Exiting i3
+
+Ready to log out and end your i3 session? You can end you i3 session by typing $mod + Shift + e and confirm with your mouse that you want to logout.
+
+Using the i3 window manager: Exiting an i3 session
+
+These are the basics you need to know for a workflow with the i3 window manager. Next, we will see how to customize i3!
+
+## Customizing i3
+
+To adjust i3 to your needs, you will need to become familiar with the file in 
+
+> ~/.config/i3/config. 
+
+This file is created by the setup wizard and you can control any aspect of your windows manager by changing the configuration.
+
+To open the file, you can use your favorite text editor. In this tutorial, we will gedit. Open a terminal and run this command.
+
+> $ gedit ~/.config/i3/config
+
+You can also open Gedit in dmenu and open it that way.
+
+Take some moments to review the configuration file. You will see it is ordered by sections. Don’t worry about breaking this file. At any time, you can delete this file and run i3-config-wizard again to restore the default configuration.
+
+Once you are done configuring the file, save and close your text editor. To see your changes take effect, you will need to reload i3. You can do this by typing $mod + Shift + r. If there is an error with your configuration, you will see a warning message.
+Knowing the terminal helps
+
+i3wm is targeted at advanced Linux users open to learning. Using a command line interface (CLI) is important for your time using i3.
+
+There are some useful command line-based tools that you may find useful. Some of this utilities are:
+
+   > alsamixer: Lets you change the volume of speakers / headphones in a terminal
+
+   > xbacklight: Changes brightness of screen in a terminal
+
+   > nmcli: Command line interface to NetworkManager
+
+   > links: Text-based web browser
+
+   > irssi: CLI-based IRC client
+
+   > mc: mc, Midnight Commander, is an advanced file manager in the terminal
+
+   > glances: Shows system status
+
+These are just a few apps you can find in the Fedora repos that can help increase productivity with i3. There are plenty of other choices you can use, but the tools listed here are some of the essential apps that you may want to have.
+
+If using a terminal seems intimidating or too overwhelming, i3 may not be the best choice for your workstation environment. However, if you feel like you can get all of your work done in a terminal-like environment, i3 will feel like home.
+Set your favorite terminal emulator
+
+There are different terminal emulators that can change the general appearance or view of your terminal windows. I like terminator personally.
+
+To change your terminal emulator, open your i3 configuration file and look for the commented section about starting a terminal. You should see something like this in the file.
+
+> bindsym $mod+Return exec i3-sensible-terminal
+
+To use i3 with a different emulator like terminator, try changing it to the following line.
+
+> bindsym $mod+Return exec terminator
+
+If you like the style of terminal used by GNOME, the terminal emulator is called gnome-terminal. You can use that name in place of terminator if you prefer.
+Set dmenu to show apps with a graphical interface
+
+You might notice that dmenu will show you all executable programs available on your system. To set up dmenu to only show apps with a graphical interface, look for the commented section about starting dmenu.
+
+There should be two lines under this section. One will be commented with a # symbol before it and the other will not. Change these lines to look like the following to only show applications with a graphical interface.
+
+> bindsym $mod+d exec dmenu_run
+
+> bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+Create your own shortcuts
+
+You may have noticed that it isn’t too difficult to set your own shortcuts for some of your favorite applications. The syntax is the same for launching multiple apps, such as bindsym $mod+<key> exec <app>, substituting <key> and <app> with your own choices.
+
+For example, you can add the following lines to your configuration file to create shortcuts to open Rhythmbox and Totem.
+
+> bindsym $mod+m exec rhythmbox
+
+> bindsym $mod+t exec totem
+
+This way, you can include all shortcuts you want to your i3 session. Just take care that you are not setting a previously defined shortcut.
+
+## Set a wallpaper
+
+Using the i3 window manager: Setting a wallpaper with feh
+
+i3 will not change any setting of your display by default. This means that you need a tool to set a wallpaper, like feh (which we installed earlier). Look for an awesome wallpaper and save it a location on your computer. You can then add the following line to your i3 configuration file to set the wallpaper.
+
+> exec --no-startup-id feh --bg-scale ~/path/to/wallpaper.png
+
+Reload your session with $mod + Shift + r to load your wallpaper.
+
+## Set up Conky
+
+Conky is a useful way to show information about your system on the screen in a beautiful way. You can look for a Conky theme online and save it your computer. You can include a line at the end of your configuration file like this to set Conky in i3.
+
+> exec --no-startup-id conky -c ~/path/to/.conkyrc
+
+You should have a result similar to this one, depending on your theme.
+
+Using the i3 window manager: Setting up Conky
+Configure apps to start up on login
+
+Want to have some of your favorite applications start up in the background as soon as you log into your desktop? Similar to writing a new shortcut, you can set an app to automatically start with the following syntax.
+
+> exec --no-startup-id dropbox start
+
+## As far as locking your screen just create a keybind for your favorite locker (e.g., i3lock), like so:
+
+> bindsym Mod4+l exec i3lock
+
+> i3lock -i ~/.i3/lock_screen.png
+
+it must be set in bashrc file like alias

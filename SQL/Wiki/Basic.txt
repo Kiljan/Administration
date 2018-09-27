@@ -1,0 +1,154 @@
+### Few info for remember or for future app
+
+***Most of the case the statement are good in all databases i know: tsql, mysql, sqlite, db2 (this old fellow is a little exception :P)***
+
+## TYPE OF OPERATION 
+1. Column operation == 
+ ALTER with ADD or CHANGE or DROP
+
+2. Rows operation == 
+ INSERT INTO
+DELETE FROM 
+TRUNCATE
+
+3. Cell operation == 
+ UPDATE
+
+## COMMANDS
+***First good practice == use brackets*** 
+
+***Second == the last join statement refers for other statement above***
+
+1. ALTER with CHANGE
+
+Changing name and a data tape, of existing column.
+ > ALTER TABLE XXX CHANGE kol1, kol2 INT NOT NULL
+***
+2. ALTER with ADD
+
+Adding a column to existing set 
+> ALTER TABLE XXX ADD kol1 INT NOT NULL
+***
+3. ALTER with DROP
+
+Remove specific column
+> ALTER XXX DROP kol1
+***
+4. BETWEEN
+
+Selection range of value 
+> SELECT * FROM XXX WHERE kol1 BETWEEN 12 AND 100
+***
+5. COUNT
+
+Count every not empty and not null cell in the specific column
+> SELECT COUNT(kol1) FROM XXX
+
+PS. In the same whey behaves functions like == MAX, MIN, LTRIM (delete white space from the left), RTRIM (delete white space from the right)
+***
+6. CREATE TABLE AS
+
+Creates a table from results of another query
+> CREATE TABLE XXX AS (SELECT *FROM companies WHERE id > 1000)
+***
+7. DELETE
+ 
+Delete selected rows
+> DELETE FROM XXX WHERE NAME = 'Frank'
+***
+8. TRUNCATE
+
+Removes all rows from a table
+> TRUNCATE XXX tbl_name
+***
+9. DISTINCT
+
+Returns each unique value only once, with no duplicates 
+> SELECT DISTINCT kol1 FROM XXX
+***
+10. EXCEPT on INTERSECT
+
+Very similar with construction. EXCEPT returns only values exists in the first query but not exists in the second INTERSECT returns values that are in the first AND the second query
+> SELECT kol1 FROM XXX EXCEPT SELECT kol1 FROM YYY 
+***
+11. GROUP BY 
+
+Consolidates rows based on a common column
+> SELECT * FROM XXX GROUP BY kol1
+***
+12. INNER JOIN
+
+Joins rows if exists. The same ID must be in all tables joined like this
+> SELECT A.kol1, A.kol2 FROM XXX AS A INNER JOIN YYY AS B ON A.kol1 = B.kol1
+***
+13. LEFT JOIN
+
+Takes all the rows in the first table (up) and matches them to the row on the right table (down).
+> SELECT A.kol1, A.kol2 FROM XXX AS A LEFT JOIN YYY AS B ON A.kol1 = B.kol1
+***
+14. RIGHT JOIN
+
+Takes all the rows in the right table (down) and matches them to the row on the first table (up).
+> SELECT A.kol1, A.kol2 FROM XXX AS A LEFT JOIN YYY AS B ON A.kol1 = B.kol1
+***
+15. LIKE
+
+Searching option. % == many sings and _ == just one sign
+> SELECT A.kol1 FROM XXX AS A WHERE A.kol1 LIKE '%par_s%'
+***
+16. ORDER BY
+
+Sorts the table by the specified column
+> SELECT * FROM XXX ORDER BY kol1
+***
+
+17. SELECT *
+
+Selects all columns in the table
+> SELECT * FROM XXX 
+***
+18. UPDATE
+
+Updates an existing column or columns with a new value
+> UPDATE XXX SET kol1 = 'dog' WHERE kol1 LIKE "k_t"
+***
+19. CASE 
+
+Something like if clause. We can use it with updates too
+> UPDATE XXX SET kol1 = (CASE 
+
+>WHEN kol1 = 'dog' THEN kol1  = 'cat'
+
+>WHEN kol1 = 'cat' THEN kol1 = 'dog' END)
+***
+20. UNION or UNION ALL
+
+Union combines the result of two or more queries into one table based on what you specify the column list of the select statement. Union hides a duplicate values, Union All on the other hand includes all result with duplicates 
+> SELECT a FROM XXX UNION ALL SELECT a FROM YYY
+***
+21. VIEWS
+
+Use a view to treat the results of a query or queries as a one table
+> CREATE VIEW LOLO AS (big statement go here)
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,106 @@
+> table=()
+
+Table declaration (something like ArrayList in Java)
+
+***
+
+> table=(1 2 3)
+
+Table declaration (something like ArrayList in Java). We can also use table=("$@") for every in parameter
+
+***
+
+
+> ${tableName[0]}
+
+Taking value of index 0 from table
+
+***
+
+> $tableName[0]=""
+
+Write value of index 0 to the table
+
+***
+
+> $(( 1 + 2 ))
+
+Thanks to double quotes we can do mathematical operation. Also modulo $(( 5 % 11 )) and >=, <=, >, <
+
+***
+
+> for (( i=1; $i <= 100; i++)) do done
+
+For loop in bash
+
+***
+
+> for cr in `cat filenames.txt`; do  done
+
+Enhanced for loop
+
+***
+
+> while [[[[ 15 >= 16 ]]]] do done
+
+Bash while loop
+
+***
+
+> if [[[[ 10 == 10 || 10 == 11]]]] then elif [[[[ 10 >= 14 && 10 == 25 ]]]] tehn else fi
+
+If statement in bash
+
+***
+
+> ${#someString}
+
+Length of someString string
+
+***
+
+> ${someString:0:7}
+
+Sub string 0 to 7
+
+***
+
+> ${someString,,}
+
+All lower case sings 
+
+***
+
+> ${someString^^}
+
+All upper case sings 
+
+***
+
+> case expression in
+
+>    pattern1 )
+
+>        statements ;;
+
+>    pattern2 )
+
+>        statements ;;
+
+>
+
+> esac
+
+Case in Bash
+
+***
+
+> ${string//what i need to change in my string/ I change to that }
+
+Replacing characters in string
+
+***
+
+
+
+
