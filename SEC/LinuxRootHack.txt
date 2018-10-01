@@ -1,0 +1,22 @@
+The chroot command changes its current and root directories to the provided directory and then run command, if supplied, 
+or an interactive copy of the user’s login shell. Please note that not every application can be chrooted.
+
+How to change a forgotten password.
+
+1. I have a Linux computer.
+
+2. I do not know the password.
+
+3. I am running LiveCD with, for example, Slack.
+
+4. I mount the disk I want to get.
+
+5. I change my root permissions
+
+6. I use chroot
+
+chroot /path/to/new/ root command
+
+where path is the location of the "shadow" file from the newly mounted drive
+
+7. I use the passwd option
