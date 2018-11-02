@@ -1,0 +1,17 @@
+1. The script (.vbs) must be in the location from which the profile is loaded.
+
+2. The following script does not leave the program execution window:
+
+Set WshShell = CreateObject("WScript.Shell")
+dim a
+a = "\\10.10.10.25\Test\Untitled.jar"
+WshShell.Run "java -jar " &  chr(34) & a & chr(34)
+
+
+
+3. The following script leaves the program execution window
+
+Set WshShell = CreateObject("WScript.Shell")
+dim a
+a = "\\10.10.10.25\Test\Untitled.jar"
+WshShell.Run "%comspec% /k java -jar " &  chr(34) & a & chr(34)
