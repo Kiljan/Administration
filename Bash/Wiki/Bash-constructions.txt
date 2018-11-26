@@ -41,13 +41,13 @@ Enhanced for loop
 
 ***
 
-> while [[[[ 15 >= 16 ]]]] do done
+> while [[ 15 >= 16 ]] do done
 
 Bash while loop
 
 ***
 
-> if [[[[ 10 == 10 || 10 == 11]]]] then elif [[[[ 10 >= 14 && 10 == 25 ]]]] tehn else fi
+> if [[ 10 == 10 || 10 == 11]] then elif [[ 10 >= 14 && 10 == 25 ]] tehn else fi
 
 If statement in bash
 
