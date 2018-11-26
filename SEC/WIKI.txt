@@ -116,9 +116,75 @@ SIP (port 5060),and Real Time Streaming Protocol (RTSP, port 554)
 
 ==> Sum it up
 
+==============================================================
+==============================================================
 
+2. Scanning
 
-
+==> Be anonymous
+    • Proxychains 
+      >emacs -nw /etc/proxychains.conf
+    • Search for add proxy hear and add main proxy. Default is 127.0.0.1 on port 9050 (the default Tor configuration) 
+      but I can use different. Save file ! And now magic (everything goes by set up proxy)
+      >proxychains nmap -sS 8.26.65.101
+    • Anonymizers
+    • good for that is Hackplayers/4nonimizer all is described on their git repo 
+==> Use proper tools
+    • NETDISCOVER
+    - only on kali. This tool discover the IP's on an internal network -r switch (for range) and then in CIDR. 
+      Example scan:
+      >netdiscover -r 192.168.1.0/24
+    • FIREWALK
+    - attempts to determine what layer 4 protocols a given IP forwarding device will pass 
+    - Scan ports 8079-8081 (-S8079-8081) through the eth0 interface (-i eth0), do not resolve hostnames (-n), 
+      use TCP (-pTCP) via the gateway (192.168.1.1) against the target IP (192.168.0.1): 
+      >firewalk -S8079-8081 -i eth0 -n -pTCP 192.168.1.1 192.168.0.1
+    • NETCAT (nc)
+    - helpful in discovering open ports on a machine. 
+      >nc -z -vv -w 1 192.168.1.100 20-25
+      -z == Zero-I/O mode, report connection status only
+      -vv == Use more than once (-vv, -vvv...) for greater verbosity. 
+             With -v it will be verbose and display all kinds of useful connection based information
+      -w 1 == wait for 1 sec
+      20-25 == port range
+    • NMAP
+      -sN, -sF, -sX == almost the same. Preferable -sN. Good for Unix scan (quiet but may be detected by IDS)
+      -sA == only ACK flag. Unfiltered = ACK can reach port but it do not precise state of that port. 
+             Ports witch no respond will by classified as filtered. Very safe scan.
+      -O == verifies operating system (aggressive)
+      -sV == service verification (aggressive)
+      -A == combined option -O and -sV + others nmap scripts (very aggressive)
+      -f == fragmentation scan creates smaller packages reassemble in target (quiet)
+     - spoofing ip (quiet)
+       >nmap -D RND 192.168.1.110
+       192.168.1.110 == target
+     - zombi scan (quiet)
+       check if system can perform a scan
+       >nmap --script ipidseq 192.168.1.0-255
+       looking for main zombi ip (Host script results == ipidseq: Incremental) and using it.
+       >nmap -sI 192.168.1.100 -Pn 192.168.1.111
+       -sI == idle(zombi 192.168.1.100 from previous scan)
+       -Pn == no ping (target 192.168.1.111)
+    - Ps. By nmap I can find a sniffers on the network by simply:
+       >nmap --script sniffer-detect 192.168.1.0/24
+    • XPROBE2
+      - useful program for verifying operating system on the host. Simple: xprobe2 targetIp 
+    • OPENVAS
+      - use of vulnerability scanner. Another free are MBSA (Windows) and Secunia PSI (Windows). 
+        Commercial on the other hand are: Nessus, Retina, CORE Impact, Nexpose itd.
+    • SPARTA
+    - SPARTA is a python GUI application which simplifies network infrastructure penetration testing 
+      by aiding the penetration tester in the scanning and enumeration phase. 
+    - this is a great tool that combines many different tools not only for scanning and enumeration 
+      but also for hydra brute-force attack
+    • also useful/actual vulnerabilities
+    - national vulnerability databases web page (https://nvd.nist.gov/) 
+    - https://www.securityfocus.com/ 
+    - http://cve.mitre.org/ 
+    - https://0day.today/ 
+    • I can check for potential flaws using a fuzzers like intruder in BurpSiut.
+    • Lists for payloads may came from different places. For example kali wordlists. 
+      But great place to start is https://github.com/fuzzdb-project/fuzzdb 
 
 
 
