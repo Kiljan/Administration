@@ -1,0 +1,2 @@
+sudo ip link set wlp2s0 up
+sudo nmcli dev wifi connect Name_Of_Wifi password "network password"
