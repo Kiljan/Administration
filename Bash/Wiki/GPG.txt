@@ -2,7 +2,7 @@
 
 * gpg --armor --export -r ds5sd7qf
 
-### Commands to encrypt witch imported lublic key
+### Commands to encrypt witch imported public key
 
 * check key id  
 gpg --list-sigs
