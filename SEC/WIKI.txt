@@ -1,0 +1,117 @@
+1. www.txt2re.com == good page to generate regular expression
+
+2. advanced subnet calculator == win program really good for network calculations (also in Android)
+
+3. mailinator == mail without a mail
+
+4. http://www.outpost9.com/files/WordLists.html == different wordlist download
+
+5. http://proxytunnel.sourceforge.net/ == script that also provide a basic non-interactive shell on remote systems behind firewalls
+
+6. https://www.virustotal.com/en/ == check for viruses on file, web page or ip etc.
+
+7. https://wigle.net/ and https://www.google.pl/maps/ == best for recon purpose
+
+8. https://www.phishtank.com/ == I can check if web page is used for fishing purposes
+
+9. https://www.shodan.io/ == is a search engine that lets the user find specific types of computers 
+(web cams, routers, servers, etc.) connected to the internet using a variety of filters. 
+Some have also described it as a search engine of service banners, which are meta-data the server sends back to the client.
+[1] This can be information about the server software, what options the service supports, 
+a welcome message or anything else that the client can find out before interacting with the server. 
+Shodan collects data mostly on web servers (HTTP/HTTPS - port 80, 8080, 443, 8443), 
+as well as FTP (port 21), SSH (port 22), Telnet (port 23), SNMP (port 161), 
+SIP (port 5060),and Real Time Streaming Protocol (RTSP, port 554)
+
+==============================================================
+1. http://www.blackviper.com/ == for service configuration on windows
+
+2. driver easy == best for installing windows drivers
+
+3. https://www.sans.org/security-resources/policies == Information Security Policy Templates
+
+4. https://www.cloudflare.com == protects from DDoS (good cloud solution)
+
+5. https://www.fail2ban.org == Fail2ban scans log files (e.g. /var/log/apache/error_log) and bans IPs that show the malicious signs
+
+6. https://www.snort.org/ == Network Intrusion Detection & Prevention System
+
+7. https://www.modsecurity.org/ == good Open Source Web Application Firewall
+
+8. https://ossec.github.io/ == free, open-source host-based intrusion detection system (HIDS)
+
+9. https://www.microsoft.com == EMET (Enhanced Mitigation Experience Toolkit) for risk and management on Windows up from 7
+
+10. https://suhosin.org == great for PHP protection (web sites and application)
+
+==============================================================
+==============================================================
+
+1. RECON
+==> What to looking at ?
+    whois, netcraft 
+    • whois == info about domain. Also http://whois.domaintools.com/ 
+    • https://www.netcraft.com/ == check web fro systems and others (passive) 
+
+==> DNS by the nslookup ??
+    • nslookup (passive)
+    • To perform a DNS lookup, simply enter the domain or subdomain you would like to query and press enter on your keyboard.
+    • The set type command will let you query a particular type of DNS record. 
+      For example, if you wanted to check the MX (mail) records for a particular domain, you would type the following:
+      >set type=mx
+    • You can now perform another lookup on the domain name, and only the MX records will be returned.
+    • Change the server. When you first start NSLookup it will query your local DNS server. 
+      This is likely to be your router or Internet Service Provider's DNS servers. 
+      As a result, you may not also receive accurate results, as the server you are querying may not exist 
+      in your local DNS server. NSLookup allows you to change the nameserver you query, 
+      to ensure you query a nameserver from which you are guaranteed to get an accurate result. 
+      If you query the nameserver listed against the domain name you will receive an authoritative answer, 
+      because the nameserver has authority over the DNS for the domain name. 
+      Start by retrieving the nameserver's for the domain name by using the set type command and then querying the domain.
+      >set type=ns
+      >mineDomain.com
+    •You can see from the results that mineDomain.com has two nameserver's, ns1.livedns.co.uk and ns2.livedns.co.uk. We can now switch NSlookup to query one of those authoritative nameserver's for this domain name.
+server ns1.livedns.co.uk
+set type is still set to query nameserver records, so change the type back to query the record you need (for example A record, MX record). In this example we shall retrieve the A records for the domain.
+set type=a
+And finally, query the domain name.
+mineDomain.com
+    • addition
+set type=cname == set for lookup primary server
+set type=soa == check for authoritative server
+    • show "zone transfer" (everything about their computers)
+server ip.number.from.ping
+set type=any
+ls -d lol.org
+4. Specify a network range (tracerout & whois)
+5. Search simple and by the google search database
+    • "something" funny == must contains exactly word something 
+    • banana -loki == every web contains banana but not loki word 
+    • cache:www.lolo.pl == cache for cached page (something like archive.org bot not witch their power) 
+    • link:www.lolol.pl == show web page that have link to my target 
+    • related:www.lolo.pl == show similar web page 
+    • allinurl:lolo.pl == show the sites conteins "lolo.pl" in their url (very similar to inurl:) 
+    • intitle:"index of" == show web page witch got "index of" in page title (in that example structure directory) very similar to allintitle: 
+    • ??google hacking database is sweet 
+6. Website search by time back machine and more
+    • archive.org == beck to the past 
+    • dogpile.com == is a metasearch engine for information on the World Wide Web that fetches results from Google, Yahoo!, and Yandex, and includes results from several other popular search engines, including those from audio and video content providers 
+    • httrack == download all web-page (also on Linux ??) (passive) 
+    • burpsiut 
+7. Email. Simple send a offer and look what back to you
+8. Check what competitors do
+9. Check social media. Do social engineering
+10. Sum it up
+
+
+
+
+
+
+
+
+
+
+
+
+
