@@ -186,7 +186,49 @@ SIP (port 5060),and Real Time Streaming Protocol (RTSP, port 554)
     • Lists for payloads may came from different places. For example kali wordlists. 
       But great place to start is https://github.com/fuzzdb-project/fuzzdb 
 
+3. Enumeration
 
+If I don't have any users name, e-mail, information about users after a recon phase, I may use enumeration technique. This provides information I mention above and many more (system information, used disks, groups of users etc.)
+I may use enumeration either whey to additional check a data I poses and all the goodies above it :)
+PS Always look at auxiliary/scanner/ for enumerators in metasploit
+
+    • NetBios in WindowsXP
+    - For that SuperScan by MCAffe. This is a simple windows program.
+    • Enumeration by SNMP (Simple Network Management Protocol)
+    - Default passwords are "public" or "private" 
+    - use metasploit and auxiliary/scanner/snmp/snmp_login for checking above passwords.
+    - If results are ok then use auxiliary/scanner/snmp/snmp_enum 
+    • Enumeration by LDAP (for example Active Directory; AD is database of user accounts and many more on Windows)
+    - Open ports that suggest a presence of that service == 389, 636, 3268, 3268 
+    - First above ports must be open 
+    - Second I can use JXplorer and try login to the target like Anonymous user with no passwords
+      Hint** use Table Editor after go to the directory 
+    • Enumeration by SMTP (Simple Mail Transfer Protocol)
+    - ports 25 and 587 (submission) 
+    - use metasploit and auxiliary/scanner/smtp/smtp_version for checking.
+    - if results are ok then use auxiliary/scanner/smtp/smtp_enum 
+    - after that I may also search executable program smtp-user-enum.pl
+    - when I run it (./smtp-user-enum.pl) I get help options. Example usage is
+        >./smtp-user-enum.pl -M VRFY -U userList.txt -t 192.168.1.120 
+    • Enumeration by DNS
+    - Port 53 (UDP or TCP) 
+    - nslookup on the first place 
+    - then is something like dnsrecon simply use 
+        >dnsrecon -d strona.org for lookup 
+        or
+        >dnsrecon -r 192.168.1.120-192.168.1.139 for reverse lookup
+    - for zone walking 
+        >dnsrecon -d strona.org -t zonewalk 
+    • Enumeration by SMB (Server Message Block; for example cifs)
+    - Open ports that suggest a presence of that service == 25 
+    - use metasploit and auxiliary/scanner/smb/smb_enumusers 
+    • Enumeration by SSH (Secure Shell)
+    - Open ports that suggest a presence of that service == 22 
+    - use metasploit and auxiliary/scanner/ssh/ssh_enumusers 
+    • Web page (written in wordpress) enumeration
+        >wpscan --url http://10.0.2.8/beckup-wordpres --enumerate p 
+    - where p option is for plugins (more on that after wpscan -h) 
+    - sometime is good idea to add wp_content_dir (more on that in wpscan -h) 
 
 
 
