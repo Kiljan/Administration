@@ -169,3 +169,4 @@ colors {
 exec thunderbird
 exec bash /home/voodobat/Dokumenty/monitorCheck.sh
 exec_always feh --bg-fill /home/voodobat/Obrazy/boat.jpg
+exec zenity --info --text="Hello My Master\nWelcome in Your System" --title="Good Day" --no-wrap
