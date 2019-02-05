@@ -1,0 +1,1 @@
+soffice --infilter="writer_pdf_import" --convert-to doc file.pdf
