@@ -1,0 +1,76 @@
+On Error Resume Next
+
+'definitions
+Dim ProgramInstalled, Program2Installed, strUninstallString, strUninstallStringParsed, DiplayNameToUninstall, ExitCode, DisplayNameToInstall
+Set objSH = WScript.CreateObject("WScript.Shell")
+Set objFSO = CreateObject("Scripting.FileSystemObject") 
+
+ProgramInstalled = 0 ' Assume Program 1 Isn't Installed
+Program2Installed = 0 ' Assume Program 2 Isn't Installed
+
+strKey = "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" ' Uninstall Strings For x86 OS
+
+strEntryName = "DisplayName" : strEntryUninstallString = "UninstallString"
+
+DiplayNameToUninstall = "Program name" ' Enter DisplayName To Uninstall 
+DisplayNameToInstall = "Program name" ' Enter DisplayName To Install 
+
+'main filters to start
+CheckPrograms DiplayNameToUninstall 
+CheckSymantec DisplayNameToInstall
+
+'main logic to start
+If ProgramInstalled = 1 Then
+	InstallEXE strUninstallStringParsed
+ElseIf Program2Installed = 0 Then
+	objSH.Run ("""\Path\to\Program.exe""")
+	Set objSH = Nothing
+Else
+	MsgBox("YOU CAN START YOUR WORK")
+End IF
+
+'method for first program check
+Sub CheckPrograms (ProgramName) ' Sub That Scans Registry
+	Set objReg = GetObject("winmgmts://./root/default:StdRegProv") ' Enumerate Registry Keys Where Add/Remove Information Is Stored
+	objReg.EnumKey &H80000002, strKey, arrSubkeys 
+		For Each strSubkey In arrSubkeys
+			ScanName = objReg.GetStringValue(&H80000002, strKey & strSubkey, strEntryName, strDisplayName) ' Get Display Name
+			ScanUninstall = objReg.GetStringValue(&H80000002, strKey & strSubkey, strEntryUninstallString, strUninstallString) ' Get Uninstall String		
+			
+			If InStr(strDisplayName, ProgramName)  Then 
+				If inStr(UCase(strUninstallString), "MSIEXEC") Then 
+					ProgramInstalled = 1 ' Uninstall String Was Found
+					strUninstallString = UCase(strUninstallString)
+					strUninstallString = Replace(strUninstallString, "MSIEXEC.EXE /I", "/X") : strUninstallString = Replace(strUninstallString, "MSIEXEC.EXE /X", "/X")
+					strUninstallStringParsed = strUninstallString
+				End If
+			End If			
+		Next
+End Sub
+
+
+'metchod for second program check
+Sub CheckSymantec (ProgramName) ' Sub That Scans Registry
+	Set objReg = GetObject("winmgmts://./root/default:StdRegProv") ' Enumerate Registry Keys Where Add/Remove Information Is Stored
+	objReg.EnumKey &H80000002, strKey, arrSubkeys 
+		For Each strSubkey In arrSubkeys
+			ScanName = objReg.GetStringValue(&H80000002, strKey & strSubkey, strEntryName, strDisplayName) ' Get Display Name
+			ScanUninstall = objReg.GetStringValue(&H80000002, strKey & strSubkey, strEntryUninstallString, strUninstallString) ' Get Uninstall String	
+
+				If inStr(strDisplayName, ProgramName) Then 
+					If inStr(UCase(strUninstallString), "MSIEXEC") Then 
+						Program2Installed = 1 ' Program was found
+					End If
+				End If
+		Next
+End Sub
+
+
+
+'method for uninstall program one  
+Sub InstallEXE (Switch) ' Sub To Perform And Monitor
+	Set objExec = objSH.Exec(objSH.ExpandEnvironmentStrings("%WinDir%") & "\system32\" & "msiexec.exe" & " " & Switch & " /passive")
+	Do While objExec.Status = 0 : Wscript.Sleep 5000 : Loop ' Loop While Installer Is Running
+End Sub
+
+Wscript.Quit(ExitCode)
