@@ -26,7 +26,6 @@ if [ -z "${DBQUERY[0]}" ]
                 printf "POST OPUBLIKOWANY\t\t$col1 \nNAZWA POSTU      \t\t$col2 \nLINK DO POSTU    \t\t$col3\n***************************************************\n\n" >> $POST_LIST
                 COUNT=$((COUNT+1))
                 done
+        #send a post file
+        cat $POST_LIST | mutt -s "Nowe posty na portalu Wordpress" -- $MAIL_LIST
 fi
-
-#send a post file
-cat $POST_LIST | mutt -s "Nowe posty na portalu Wordpress" -- $MAIL_LIST
