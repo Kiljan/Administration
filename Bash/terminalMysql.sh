@@ -1,16 +1,32 @@
 #!/bin/bash
 
-MAIL_LIST="one@domain.com, two@domain.com"
+#veriable set
+MAIL_LIST="mail1@domain.com, mail2@domain.com , mail3@domain.com"
+POST_LIST="/var/spool/cron/posts"
 
-#Create an array from wordpress tables; ps. first change global separator
+#setting for query
+set -f
 IFS=$'\n'
-DBQUERY=$(mysql --user=root --password=******** wordpress -se "select w.display_name as OPUBLIKOWAŁ, w.user_email as MAIL, p.post_title as NAZWA_POSTU, p.guid as LINK_DO_POSTU, DATE(p.post_date) as DATA_POSTU, time_format(p.post_date, '%T') as GODZINA_POSTU from wp_posts as p left join wp_users as w on p.post_author=w.ID WHERE p.post_type='post' and p.post_title not like '%szkic%' AND p.post_date BETWEEN DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND NOW()\G;")
+DBQUERY=($(mysql --batch --user=root --password=******** wordpress -se "select w.display_name as OPUBLIKOWAŁ, p.post_title as NAZWA_POSTU, p.guid as LINK_DO_POSTU from wp_posts as p left join wp_users as w on p.post_author=w.ID WHERE p.post_type='post' and p.post_title not like '%szkic%' AND p.post_date BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND NOW();"))
 
+
+#first clear elier posts
+echo "" > $POST_LIST
+
+#loop for results if any
 IFS=$'\t'
-if [ -z $DBQUERY ]
-then
-        #Dummy variable
+COUNT=0
+if [ -z "${DBQUERY[0]}" ]
+        then
         EMPTY="TRUE"
-else
-        echo $DBQUERY | mutt -s "Nowe Posty" -- $MAIL_LIST
+        else
+        for i in $DBQUERY[@]
+                do
+                read -r col1 col2 col3  <<< "${DBQUERY[$COUNT]}"
+                printf "POST OPUBLIKOWANY\t\t$col1 \nNAZWA POSTU      \t\t$col2 \nLINK DO POSTU    \t\t$col3\n***************************************************\n\n" >> $POST_LIST
+                COUNT=$((COUNT+1))
+                done
 fi
+
+#send a post file
+cat $POST_LIST | mutt -s "Nowe posty na portalu Wordpress" -- $MAIL_LIST
