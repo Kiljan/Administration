@@ -14,18 +14,24 @@ DBQUERY=($(mysql --batch --user=root --password=******** wordpress -se "select w
 echo "" > $POST_LIST
 
 #loop for results if any
-IFS=$'\t'
-COUNT=0
 if [ -z "${DBQUERY[0]}" ]
         then
-        EMPTY="TRUE"
+                EMPTY="TRUE"
         else
-        for i in $DBQUERY[@]
+                IFS=$'\t'
+                COUNT=0
+                for i in ${DBQUERY[@]}
                 do
-                read -r col1 col2 col3  <<< "${DBQUERY[$COUNT]}"
-                printf "POST OPUBLIKOWANY\t\t$col1 \nNAZWA POSTU      \t\t$col2 \nLINK DO POSTU    \t\t$col3\n***************************************************\n\n" >> $POST_LIST
-                COUNT=$((COUNT+1))
+                        read -r col1 col2 col3  <<< "${DBQUERY[$COUNT]}"
+                        if [ -z $col1 ]
+                        then
+                                EMPTY="TRUE"
+                        else
+                                printf "POST OPUBLIKOWANY\t\t$col1 \nNAZWA POSTU      \t\t$col2 \nLINK DO POSTU    \t\t$col3\n***************************************************\n\n" >> $POST_LIST
+                        fi
+                        COUNT=$((COUNT+1))
                 done
-        #send a post file
-        cat $POST_LIST | mutt -s "Nowe posty na portalu Wordpress" -- $MAIL_LIST
+
+                #send a post file
+                cat $POST_LIST | mutt -s "Nowe posty na portalu Wordpress" -- $MAIL_LIST
 fi
