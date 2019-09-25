@@ -1,29 +1,23 @@
-import socket
-import threading
+#!/usr/bin/python
 
-BIND_IP = '0.0.0.0'
+import socket
+
+HOST = 'localhost'
 BIND_PORT = 1337
 
-
-def handle_client(client_socket):
-    request = client_socket.recv(1024)
-    print "[*] Recived: " + request
-    client_socket.send('ACK')
-    client_socket.close()
-
-
 def tcp_server():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((BIND_IP, BIND_PORT))
-    server.listen(5)
-    print "[*] Listening on %s:%d" % (BIND_IP, BIND_PORT)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen(1)
+    conn, addr = s.accept()
 
+    print 'connected by', addr
+    
     while 1:
-        client, addr = server.accept()
-        print "[*] Accepted connection from: %s:%d" % (addr[0], addr[1])
-        client_handler = threading.Thread(target=handle_client, args=(client,))
-        client_handler.start()
-
+        data=conn.recv(1024)
+        if not data: break
+        conn.send(data)
+    conn.close()
 
 if __name__ == '__main__':
     tcp_server()
