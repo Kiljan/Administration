@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# In the ARP header we set the IP address of the victim (target_ip) 
+# and the IP which we would like to hijack all connections (fake_ip)
+
 import sys
 import time
 from scapy.all import sendp, ARP, Ether
