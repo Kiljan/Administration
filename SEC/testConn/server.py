@@ -2,7 +2,7 @@ import socket
 import threading
 
 BIND_IP = '0.0.0.0'
-BIND_PORT = 9090
+BIND_PORT = 1337
 
 
 def handle_client(client_socket):
