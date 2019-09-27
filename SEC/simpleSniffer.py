@@ -1,4 +1,8 @@
 #!/usr/bin/python
+
+# Filter ensures that only ARP packets get sniffed.
+# Other possible filters would be e.g. tcp and port 80 The documentation of the PCAP filter language can be found on tcpdump.org
+
 import sys
 import getopt
 import pcapy
