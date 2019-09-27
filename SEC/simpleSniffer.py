@@ -40,6 +40,8 @@ for opt in opts:
     usage()
 
 # Open device in promisc mode
+# The parameters for open_live() are snaplen to define how many bytes of a packets payload should be read, 
+# a boolean value for setting the promiscuous mode and a timeout in milliseconds beside the network interface to read from.
 pcap = pcapy.open_live(dev, 1500, 0, 100)
 
 # Set pcap filter
