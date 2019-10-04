@@ -3,12 +3,12 @@
 for var in *
 do
     if [[ -f $var && -x $var ]] ; then
-        echo "${var} jest plikiem reguralnym i wykonywalnym"
+        echo "${var} is a regular and executable file"
     elif [ -f $var ] ; then
-       echo "${var} jest plikiem reguralnym"
+       echo "${var} is a regular file"
     elif [ -x $var ] ; then
-        echo "${var} plik można uruchmioć"
+        echo "${var} the file can be run"
     else
-        echo "lolo ble"
+        echo "No option selected"
     fi
 done
