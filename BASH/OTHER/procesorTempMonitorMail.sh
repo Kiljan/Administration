@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE=/sensors/temp.txt
+FILE=/home/sensors/temp.txt
 LIST="test@mail.pl"
 
 if [ -f $FILE ]; then
