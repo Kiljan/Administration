@@ -2,6 +2,8 @@
 
 # Calculates network and broadcast based on supplied ip address and netmask
 
+# forked from cskeeters/broadcast_calc.sh
+
 # Usage: broadcast_calc.sh 192.168.0.1 255.255.255.0
 # Usage: broadcast_calc.sh 192.168.0.1/24
 
