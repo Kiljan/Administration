@@ -94,7 +94,6 @@ printf "%-25s %s\n" "BROADCAST=$BROADCAST" $BROADCASTBIN
 * Table declaration _(something like ArrayList in Java)_
     ```
         table=()
-***
 * Table declaration _(something like ArrayList in Java)_<br>We can also use __table=("$@")__ for every step in parameter 
     ``` 
         table=(1 2 3) 
