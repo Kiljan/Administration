@@ -93,43 +93,30 @@ printf "%-25s %s\n" "BROADCAST=$BROADCAST" $BROADCASTBIN
 
 * Table declaration _(something like ArrayList in Java)_
     * > table=()
-***
 * Table declaration _(something like ArrayList in Java)_<br>We can also use __table=("$@")__ for every step in parameter 
     * > table=(1 2 3) 
-***
 *   Taking value of index 0 from table
     * > ${tableName[0]}
-***
 * Write value of index 0 to the table
     * > $tableName[0]=""
-
-***
 * Thanks to double quotes we can do mathematical operation. <br>_Also modulo $(( 5 % 11 )) and >=, <=, >, <_
     * > $(( 1 + 2 ))
-***
 * For loop in bash
     * > for (( i=1; $i <= 100; i++)); do echo $i; done
 * Foreach loop in bash
     * > for i in `cat filenames.txt`; do echo $i; done
-***
 * Bash while loop
     * > while [[ 15 >= 16 ]]; do echo "Lolo"; done
-***
 * If statement in bash
     * > if [[ 10 == 10 || 10 == 11]]; then echo "True"; elif [[ 10 >= 14 && 10 == 25 ]]; tehn echo "False"; else echo "NULL"; fi
-***
 * Length of someString string
     * > ${#someString}
-***
 * Sub string 0 to 7
     * > ${someString:0:7}
-*** 
 * All lower case sings
     * > ${someString,,}
-***
 * All upper case sings
     * > ${someString^^}
-***
 * Case in Bash
     * ```   
         case exampleString in
@@ -138,8 +125,5 @@ printf "%-25s %s\n" "BROADCAST=$BROADCAST" $BROADCASTBIN
             dog1 )
                 echo "Hello Dog" ;;
         esac
-***
 * Replacing characters in string _(Similar to vim construction)_
     * > ${string/what i need to change in my string/ I change to that }
-***
-
