@@ -1,6 +1,6 @@
 # Administration 
 ## Things useful in everyday tasks
-### _<sub>Three from many examples showd below_
+### _<sub>Three of many examples are shown below_
 
 * [CLEAN_PRINTER_BUFFER](https://github.com/Kiljan/Administration#CLEAN_PRINTER_BUFFER "CLEAN_PRINTER_BUFFER")
 
