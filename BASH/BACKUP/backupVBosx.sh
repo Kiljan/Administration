@@ -1,5 +1,5 @@
 VIRT_NAME=MyLinuxWork
-VIRT_DIRE=/home/master/vms/MyLinuxWork
+VIRT_DIRE=@HOME/vms/MyLinuxWork
 VIRT_HDD=/u00/vms/MyLinuxWork
 DT_TODAY=`date +%F`
 GPG_KEY=DWSF123DS
